@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 100px;
+            background-color: black; /* Set the background color to black */
+        }
+
+        h1 {
+            font-family: 'Oswald', sans-serif; /* Set the headline font to Oswald or any ultra bold sans-serif */
+            font-weight: 800; /* Set the font weight to ultra bold */
+            color: #D59224; /* Set the headline font color to HEX #D59224 */
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif; /* Set the random noun font to Merriweather or a similar serif font */
+            color: white; /* Set the random noun font color to white */
+        }
+    </style>
+    <script>
+        var nouns = [];
+
+        function fetchRandomNoun() {
+            var randomIndex = Math.floor(Math.random() * nouns.length);
+            var randomNoun = nouns[randomIndex];
+            document.getElementById('noun-display').textContent = randomNoun;
+        }
+
+        function fetchNounList() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://raw.githubusercontent.com/MSNYC/NounList/main/EnglishNounSet.txt', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var content = xhr.responseText;
+                    nouns = content.split('\n');
+                } else if (xhr.readyState === 4) {
+                    console.log('Error fetching the noun list:', xhr.status);
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+    <h1>Random Noun Generator</h1>
+    <button onclick="fetchRandomNoun()">Generate Random Noun</button>
+    <h2 id="noun-display"></h2>
+    <script>
+        fetchNounList();
+    </script>
+</body>
+</html>
